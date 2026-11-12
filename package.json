@@ -1,0 +1,18 @@
+{
+  "name": "cargo-tracker",
+  "version": "1.6.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "demo": "node scripts/seed.mjs",
+    "password": "node scripts/password.mjs"
+  },
+  "dependencies": {
+    "playwright": "1.62.1"
+  }
+}
