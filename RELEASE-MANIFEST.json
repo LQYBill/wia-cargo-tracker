@@ -1,7 +1,7 @@
 {
   "name": "cargo-tracker",
   "version": "1.6.0",
-  "built_at": "2026-11-10T19:21:03.150Z",
+  "built_at": "2026-11-18T16:10:15.524Z",
   "scope": "source-only; no business database, passwords, uploads or runtime dependencies",
   "files": [
     {
@@ -36,13 +36,13 @@
     },
     {
       "path": "lib/accounts.mjs",
-      "bytes": 4175,
-      "sha256": "db95b0e6b805a9adf565a31a8890935a38e816c0c35116677cdbab830bc99f4d"
+      "bytes": 5561,
+      "sha256": "d314c8fefb37fc9ad84af845699b5402deea2eeab54cae436ea3b7e09feab9e8"
     },
     {
       "path": "lib/edit.mjs",
-      "bytes": 3815,
-      "sha256": "839ca6de619dccbf6503c37f2774c27b6ccca681b4294b14f0a84a5c191e0149"
+      "bytes": 4113,
+      "sha256": "dc510a2111299e7b76c68f847b81cc77466bae2d200c52b32a2ffcd94e76df27"
     },
     {
       "path": "lib/model.mjs",
@@ -66,18 +66,28 @@
     },
     {
       "path": "lib/shipping.mjs",
-      "bytes": 3129,
-      "sha256": "751595e114fdc037c2c3755f0718b0885df9638ca533db4b01d27379a6bf7cd9"
+      "bytes": 3482,
+      "sha256": "a6961fe347ec3e0d1d481bda7700e50eaa5eb461915001184ff5f01e4e615f5e"
     },
     {
       "path": "lib/store.mjs",
-      "bytes": 9366,
-      "sha256": "96c27181616c20d600da321f23de75ac5e2dd588ac49c6a8ee46764ed90c99ca"
+      "bytes": 11396,
+      "sha256": "ef7b337fc36e9d21e1d8d46226acbf7cbd9e04d349ddfeed867f8a3a5844a8ff"
+    },
+    {
+      "path": "lib/t6.mjs",
+      "bytes": 4781,
+      "sha256": "565a3ea014faa0dbb1ab92a14d3845492f02b80d98a80b3a100368919999f3db"
     },
     {
       "path": "lib/website-parser.mjs",
       "bytes": 3897,
       "sha256": "36dd58c47f8329a335a4d78209f78c8b5caae2d7eba2d06d81606812bc308c24"
+    },
+    {
+      "path": "lib/website-response.mjs",
+      "bytes": 1032,
+      "sha256": "0b9f1721a017b3c495b8bd234c2bb4a0d2a310f5c2c67c69e73deda12215a8a7"
     },
     {
       "path": "lib/website.mjs",
@@ -96,18 +106,28 @@
     },
     {
       "path": "public/app.js",
-      "bytes": 31366,
-      "sha256": "a8b55b08222b2ac9d192f6e15b767ece72370a767d41c812477b42a5de9b98d5"
+      "bytes": 138743,
+      "sha256": "da3e633312210bf551e0e48cf9156ca3227ae8ac7c7e4ad69f62cea3274c1ce0"
+    },
+    {
+      "path": "public/app.webmanifest",
+      "bytes": 348,
+      "sha256": "78c86ce2b9a130475b48edb93c0d02b89903f40f7b2fd80009c18cbfa0060690"
+    },
+    {
+      "path": "public/cargo-logo.svg",
+      "bytes": 443,
+      "sha256": "109c2f9cf102c79db57e5706d7487642b559bff7c1baea6439765cc8d75fb984"
     },
     {
       "path": "public/index.html",
-      "bytes": 7775,
-      "sha256": "e73a3cea4f112deb20d57c2d5b8c8a2c105f55943717269f4f05fcae8e5b3663"
+      "bytes": 12588,
+      "sha256": "1b09ba80b5a2abec829ba200bdd4bcf475ca992d9c1b66b953a5aba2be07abad"
     },
     {
       "path": "public/style.css",
-      "bytes": 9738,
-      "sha256": "ba2a78ecbd5dc723f81bffdb677fc990706876b0ab07a243f5ab6aaadf0586fb"
+      "bytes": 27339,
+      "sha256": "6e754ba321c73c5e16323076b93db350fc40c19e2b60f589dedf81e8af76aad6"
     },
     {
       "path": "README.md",
@@ -136,8 +156,8 @@
     },
     {
       "path": "server.mjs",
-      "bytes": 17230,
-      "sha256": "4c51cce99c6e039db3f06ccc27721a64ec2e888ee2ecb540ed1b1db7232b1659"
+      "bytes": 29173,
+      "sha256": "aad1948bf721024ae260c641209e5afbed7b0c876ac42f00848533bf5291ea2e"
     },
     {
       "path": "tests/edit.test.mjs",
@@ -166,8 +186,8 @@
     },
     {
       "path": "tests/server.test.mjs",
-      "bytes": 13422,
-      "sha256": "a70994ae345264fdf0b4d4e5b684ab559e753df9df14a10330360b5388daeb55"
+      "bytes": 14745,
+      "sha256": "4fb5f2398f2c0b4e9723f3142cb81fdd20be4dcc60bf7380d18c198440dafaf8"
     },
     {
       "path": "tests/shipping.test.mjs",

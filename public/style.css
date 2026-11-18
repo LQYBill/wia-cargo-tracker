@@ -9,3 +9,298 @@
 .paymentToggle{display:flex;flex-direction:row;align-items:center;gap:8px;margin:12px 0 0;font-size:12px;color:#5d7667;font-weight:600}.paymentToggle input{width:17px;height:17px;accent-color:var(--green);cursor:pointer}.paymentToggle input:disabled{cursor:wait}.privateSummary .paymentToggle{padding-top:8px}
 
 .nightlyStatus{display:flex;justify-content:space-between;align-items:center;gap:15px;margin:18px 0;padding:18px;border:1px solid #dce9e0;border-radius:10px;background:white}.nightlyStatus strong{font-size:13px}.nightlyStatus p{font-size:11px;margin-top:7px}.nightlyStatus button{white-space:nowrap}.pill.partial{background:#faf0df;color:#aa7c2f}
+
+#companyDirectory, #companyForm {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 24px;
+}
+#companyDirectory > label {
+  max-width: 520px;
+}
+#companyForm {
+  max-width: 960px;
+}
+#companyPage > header {
+  flex-wrap: wrap;
+}
+
+.companyRecord{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;gap:20px}
+.companyDetails{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:14px 20px;margin:12px 0 0}
+.companyDetails dt{font-size:.8rem;color:#526a65;margin-bottom:4px}
+.companyDetails dd{margin:0;overflow-wrap:anywhere;white-space:pre-wrap}
+.companyActions{display:flex;gap:8px;justify-content:flex-end;white-space:nowrap}
+@media(max-width:560px){.companyRecord{grid-template-columns:minmax(0,1fr)}}
+
+.shipmentProgress{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));list-style:none;padding:16px 0;margin:0 0 16px;background:#f4f8f6;border-radius:10px;text-align:center}
+.shipmentProgress li{position:relative;display:grid;justify-items:center;align-content:start;gap:6px;padding:0 6px;color:#526a65}
+.shipmentProgress li+li::before{content:"";position:absolute;top:14px;right:50%;width:100%;height:2px;background:#cddbd6}
+.shipmentProgress li.reached+li.reached::before{background:#127965}
+.progressDot{position:relative;display:grid;place-items:center;width:30px;height:30px;box-sizing:border-box;border:2px solid #cddbd6;border-radius:50%;background:#fff}
+.reached .progressDot{background:#127965;border-color:#127965;color:#fff}
+.shipmentProgress small{font-variant-numeric:tabular-nums}
+
+.shipmentProgress li.reached .progressDot{animation:shipment-node-in .35s ease-out both;animation-delay:calc(var(--step,0) * 160ms)}
+.shipmentProgress li:nth-child(2){--step:1}
+.shipmentProgress li:nth-child(3){--step:2}
+.shipmentProgress li.reached+li.reached::before{transform-origin:left;animation:shipment-line-in .3s ease-out both;animation-delay:calc(var(--step,0) * 160ms)}
+.shipmentProgress li.reached:has(+li:not(.reached)) .progressDot::after{content:"";position:absolute;inset:-4px;border:2px solid #127965;border-radius:50%;animation:shipment-current 1.8s ease-out .6s 3 both}
+@keyframes shipment-node-in{from{opacity:0;transform:scale(.65)}to{opacity:1;transform:scale(1)}}
+@keyframes shipment-line-in{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes shipment-current{from{opacity:.55;transform:scale(.9)}to{opacity:0;transform:scale(1.45)}}
+@media(prefers-reduced-motion:reduce){
+ .shipmentProgress li.reached .progressDot,.shipmentProgress li.reached+li.reached::before{animation:none}
+ .shipmentProgress li.reached:has(+li:not(.reached)) .progressDot::after{content:none}
+}
+
+.shipmentProgress li+li::before{top:21px;right:calc(50% + 28px);width:max(0px,calc(100% - 56px))}
+.progressDot{width:44px;height:44px;--progress-fill:#fff;color:#667e77}
+.reached .progressDot{--progress-fill:#127965;box-shadow:0 3px 10px #12796533}
+.progressDot svg{width:22px;height:22px}
+.progressCheck{position:absolute;right:-5px;bottom:-4px;display:grid;place-items:center;width:17px;height:17px;border:2px solid #fff;border-radius:50%;background:#127965;color:#fff;font-size:10px;line-height:1;z-index:1}
+
+.shipmentDetailNav{position:sticky;top:0;z-index:2;display:flex;gap:8px;flex-wrap:wrap;padding:10px 0;background:#f2f6f4}
+#shipmentDetailPage [tabindex="-1"],#shipmentDetailPage #editSection{scroll-margin-top:110px}
+
+.shipmentDetailNav{gap:6px;margin:0 0 16px;padding:6px;background:#fff;border:1px solid #dbe6e1;border-radius:12px;box-shadow:0 3px 12px #183c3210}
+.shipmentDetailNav .detailNavButton{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:8px 12px;border:1px solid transparent;border-radius:8px;background:transparent;color:#37554c;font-weight:650;white-space:nowrap}
+.detailNavButton svg{width:18px;height:18px;flex:none}
+.shipmentDetailNav .detailNavButton:hover{background:#edf5f1}
+.shipmentDetailNav .detailNavButton[aria-current]{background:#116b5b;color:#fff}
+.shipmentDetailNav .detailNavButton:focus-visible{outline:2px solid #116b5b;outline-offset:2px}
+@media(max-width:640px){.shipmentDetailNav{flex-wrap:nowrap;overflow-x:auto}.shipmentDetailNav .detailNavButton{flex:none}}
+
+.shipmentOverview{background:#fff;border:1px solid #dbe6e1;border-radius:14px;padding:clamp(16px,3vw,28px);margin-bottom:16px}
+.shipmentOverviewHeader{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.shipmentOverviewHeader h2{font-size:clamp(1.45rem,3vw,2rem);margin:8px 0 4px}
+.shipmentOverviewHeader p{margin:0;overflow-wrap:anywhere}
+.shipmentBoxCount{display:grid;gap:4px;background:#e7f3ed;color:#135747;border-radius:12px;padding:12px 18px;min-width:160px}
+.shipmentBoxCount strong{font-size:1.75rem;line-height:1.15}
+.shipmentFacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:14px;margin:20px 0 0;padding-top:16px;border-top:1px solid #e0e9e5}
+.shipmentFacts dt{font-size:.8rem;color:#526a65}
+.shipmentFacts dd{margin:4px 0 0;overflow-wrap:anywhere;font-weight:600}
+.shipmentNotes{background:#fff;border:1px solid #dbe6e1;border-radius:10px;padding:12px 16px;margin:14px 0}
+.shipmentNotes summary{cursor:pointer;font-weight:650}
+.shipmentNotes p{white-space:pre-wrap;overflow-wrap:anywhere}
+
+
+:root {
+  --green:#16634c;
+  --muted:#51685d;
+  --line:#d9e5dc;
+  --orange:#a84211;
+  --orange-soft:#fff0df;
+  --green-soft:#e8f3e9;
+  color:#18392d;
+  background:#f6f8f0;
+}
+aside,.panel,.batchCard,.shipmentOverview,.shipmentNotes,dialog{border-color:var(--line)}
+.brand,td strong,.stat .value{color:#174835}
+aside nav button{color:#425e50}
+aside nav button.active{background:var(--green-soft);box-shadow:inset 3px 0 var(--green)}
+button{background:var(--green-soft);color:#174835}
+.primary{background:var(--orange);color:white;box-shadow:0 3px 8px #a8421126}
+input,select,textarea{accent-color:var(--green);border-color:var(--line)}
+input:focus,select:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px #16634c20}
+.connection,.shipmentProgress,.shipmentBoxCount{background:var(--green-soft);color:#174835}
+.stat:first-child{background:#164c39;border-color:#164c39}
+.stat:first-child .value{color:#ffd09c}
+th{background:#edf4ec;color:#425e50}
+td small,.tracking,.stat span{color:var(--muted)}
+.pill.label,.pill.out,.pill.customs,.pill.partial{background:var(--orange-soft);color:#82380e}
+.pill.pickup,.pill.transit,.pill.cleared,.pill.delivered{background:var(--green-soft);color:#16634c}
+.shipmentBoxCount strong{color:var(--orange)}
+.shipmentDetailNav .detailNavButton[aria-current]{background:var(--green);color:white}
+.shipmentDetailNav .detailNavButton:hover:not([aria-current]){background:var(--orange-soft);color:#82380e}
+.progressDot{border-color:#a9c4b4}
+.reached .progressDot{--progress-fill:var(--green);background:var(--green);border-color:var(--green)}
+.progressCheck,.shipmentProgress li.reached+li.reached::before{background:var(--green)}
+.shipmentProgress li.reached:has(+li:not(.reached)) .progressDot::after{border-color:var(--orange)}
+
+.shipmentCompanyPicker{position:relative}
+.companySuggestions{position:absolute;z-index:4;top:100%;inset-inline:0;max-height:190px;overflow:auto;padding:4px;border:1px solid var(--line);border-radius:9px;background:white;box-shadow:0 6px 18px #164c3926}
+.companySuggestions button{display:block;width:100%;text-align:left;background:white;color:var(--green)}
+.companySuggestions button:hover,.companySuggestions button:focus-visible{background:var(--orange-soft);color:var(--orange)}
+
+#shipmentCreatePage .shipmentDetailNav{margin-top:0}
+#shipmentCreatePage #shipmentForm{max-width:980px}
+.shipmentFormCard{padding:clamp(16px,3vw,26px);margin-bottom:16px;background:#fff;border:1px solid var(--line);border-radius:12px;scroll-margin-top:75px}
+.shipmentFormCard h2{margin-bottom:12px}
+.shipmentFormCard [role="alert"]{margin:10px 0}
+.shipmentFormCard #saveShipment{margin-top:12px}
+
+.brand{display:flex;align-items:center;gap:10px;color:#164c39;font-size:19px;letter-spacing:0}
+.brand svg{width:38px;height:38px;flex:none}
+.brand span{line-height:1.25}
+.login .brand{font-size:23px;margin-bottom:16px}
+.login .brand svg{width:48px;height:48px}
+
+.brandSignature{display:block;margin-top:4px;color:var(--orange);font-size:10px;font-weight:700;letter-spacing:.12em}
+.shipmentSelect{width:44px;text-align:center}
+.shipmentSelect input{width:16px;height:16px;margin:0;vertical-align:middle;cursor:pointer}
+#searchField{width:auto;min-width:110px}
+.filters{flex-wrap:wrap}
+.shipmentPagination{position:sticky;bottom:0;z-index:2;display:flex;flex-wrap:nowrap;align-items:center;justify-content:flex-end;gap:6px;width:100%;box-sizing:border-box;margin:0;padding:4px 6px;background:#fff;border:1px solid var(--line);border-radius:0 0 12px 12px;border-top:0;white-space:nowrap;font-size:12px}
+.shipmentPagination label{display:flex;flex-direction:row;align-items:center;gap:4px;margin:0;white-space:nowrap}
+.shipmentPagination select,.shipmentPagination button{width:auto;min-height:28px;padding:3px 6px;font-size:inherit;white-space:nowrap}
+.shipmentListPanel{border-bottom-left-radius:0;border-bottom-right-radius:0}
+
+.carrierTracking{display:inline-flex;align-items:center;gap:8px;vertical-align:middle}
+.carrierLogo{width:auto;height:18px;max-width:80px;object-fit:contain}
+.carrierBadge{display:inline-flex;align-items:center;gap:5px;padding:2px 6px;border:1px solid var(--line);border-radius:5px;font:500 10px/1.2 Inter,"Segoe UI",sans-serif}
+.carrierLogo{height:12px;max-width:46px}
+.shipmentProduct{padding:0;background:none;color:inherit;text-align:left;font:inherit}
+.shipmentProduct:hover,.shipmentProduct:focus-visible{color:var(--green);text-decoration:underline;text-underline-offset:3px}
+
+.transportBadge{display:inline-flex;align-items:center;gap:5px;padding:4px 7px;border-radius:6px;font-size:12px;font-weight:600}
+.transportBadge svg{width:15px;height:15px}
+.transportBadge.air{color:#205a96;background:#e9f2ff}
+.transportBadge.rail{color:#683a98;background:#f2eafb}
+.transportBadge.road{color:#8a4215;background:#fff0e2}
+.transportBadge.sea{color:#a53670;background:#fce7f1}
+
+.stat .value{display:block}
+.dispatchStat{text-align:left;font:inherit;color:inherit}
+@media(max-width:700px){
+ .workspaceSidebar{gap:10px;padding:12px 14px;padding-top:calc(12px + env(safe-area-inset-top));border-bottom:1px solid var(--line)}
+ .workspaceSidebar .brand{margin:0;font-size:17px}
+ .workspaceSidebar .brand svg{width:36px;height:36px}
+ .workspaceSidebar .identity,.workspaceSidebar .asideFoot p,.workspaceSidebar .asideFoot .dot{display:none}
+ .workspaceSidebar .asideFoot{position:static;display:block;font-size:0}
+ .workspaceSidebar #logout{font-size:12px;white-space:nowrap;padding:8px}
+ .workspaceNav{position:fixed;inset:auto 0 0;z-index:15;display:flex;gap:2px;margin:0;padding:5px 4px calc(5px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid var(--line)}
+ .workspaceNav button{flex:1;min-width:0;min-height:48px;padding:4px 0;text-align:center;white-space:nowrap;font-size:10px;border-left:0}
+ .workspaceNav button svg{display:block;margin:0 auto 3px}
+ .workspaceNav #badge{font-size:9px;padding:1px 3px}
+ #app{padding-bottom:calc(64px + env(safe-area-inset-bottom))}
+ .shipmentPagination{position:static;flex-wrap:wrap}
+ .panelHead{flex-wrap:wrap;gap:8px}
+ .stats{gap:8px;margin-bottom:16px}
+ .stat{padding:12px}
+ .stat .value{margin:8px 0 4px;font-size:26px}
+}
+
+@media (max-width:700px){
+ #export,.shipmentTable .shipmentSelect,.shipmentTable thead{display:none}
+ .filters:has(+ .shipmentTable){display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px;padding-bottom:14px}
+ .filters:has(+ .shipmentTable) > :last-child{grid-column:1/-1}
+ .shipmentTable{overflow:visible;padding:0 10px}
+ .shipmentTable table,.shipmentTable tbody{display:block;white-space:normal}
+ .shipmentTable tbody tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:12px;margin-bottom:10px;border:1px solid var(--line);border-radius:10px}
+ .shipmentTable td{min-width:0;padding:0;border:0;overflow-wrap:anywhere}
+ .shipmentTable td:nth-child(2),.shipmentTable td:nth-child(7){grid-column:1/-1}
+ .shipmentTable td:last-child:empty{display:none}
+ .shipmentTable td:nth-child(5)::before,.shipmentTable td:nth-child(6)::before,.shipmentTable td:nth-child(7)::before{display:block;font-size:11px;color:var(--muted);margin-bottom:3px}
+ .shipmentTable td:nth-child(5)::before{content:"上网 → 提取"}
+ .shipmentTable td:nth-child(6)::before{content:"提取 → 签收"}
+ .shipmentTable td:nth-child(7)::before{content:"最近查询"}
+ .shipmentTable .carrierTracking{flex-wrap:wrap}
+}
+
+@media (max-width:700px){
+ .shipmentDetailNav{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:6px;
+  overflow:visible;
+  position:static;
+ }
+ .shipmentDetailNav .detailNavButton{
+  width:100%;
+  min-height:44px;
+  justify-content:center;
+  padding:6px 4px;
+  gap:5px;
+  font-size:12px;
+  white-space:normal;
+ }
+}
+@media (max-width:700px){
+ #shipmentDetailPage .shipmentDetailNav{
+  display:flex;
+  flex-wrap:nowrap;
+  position:sticky;
+  top:env(safe-area-inset-top,0px);
+  z-index:4;
+  gap:3px;
+ }
+ #shipmentDetailPage .detailNavButton{
+  flex:1 1 0;
+  min-width:0;
+  width:auto;
+  gap:3px;
+  font-size:11px;
+  white-space:nowrap;
+ }
+ #shipmentDetailPage .detailNavButton svg{width:13px;height:13px}
+ #shipmentDetailPage [data-detail-jump="detailDocuments"],#detailDocuments{display:none}
+ #shipmentDetailPage [data-detail-jump="detailCosts"] span{font-size:0}
+ #shipmentDetailPage [data-detail-jump="detailCosts"] span::after{content:"物流费用";font-size:11px}
+ #shipmentDetailPage [data-detail-jump="detailCosts"]{flex-grow:1.1}
+}
+
+.mobileUserActions{display:none}
+@media(max-width:700px){
+ .workspaceSidebar #navNotices,.workspaceSidebar .asideFoot{display:none}
+ .mobileUserActions{display:flex;align-items:center;gap:4px;margin-left:auto;flex-shrink:0}
+ .mobileUserActions button,.mobileUserMenu summary{min-height:36px;padding:7px 6px;font-size:11px;white-space:nowrap}
+ .mobileUserMenu{position:relative}
+ .mobileUserMenu summary{display:flex;align-items:center;cursor:pointer;border:1px solid var(--line);border-radius:8px;font-weight:600}
+ .mobileUserMenu summary::-webkit-details-marker{display:none}
+ #mobileLogout{position:absolute;right:0;top:calc(100% + 6px);z-index:20;background:white;box-shadow:0 4px 14px #164c3920}
+ #mobileBadge{background:#cfe8da;border-radius:10px;padding:1px 3px}
+}
+@media(max-width:700px){
+ .workspaceNav button{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:3px;
+  line-height:1.2;
+ }
+ .workspaceNav button > :first-child{display:block;width:16px;height:16px;margin:0;font-size:15px;line-height:16px}
+ #toast{bottom:calc(68px + env(safe-area-inset-bottom))}
+}
+
+.shipmentProgressHeading{display:flex;align-items:center;justify-content:space-between;gap:8px 16px;flex-wrap:wrap;margin-bottom:8px}
+.shipmentProgressHeading h3,.shipmentProgressHeading .detailActions{margin:0}
+.shipmentProgressHeading .detailActions{margin-inline-start:auto}
+
+.shipmentProgress.seaProgress{grid-template-columns:repeat(6,minmax(0,1fr))}
+@media(max-width:600px){.shipmentProgress.seaProgress{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:16px}.seaProgress li:nth-child(4)::before{display:none}}
+
+.shipmentProgress li:not(.reached) .arrivalShipIcon{color:var(--orange)}
+.shipmentProgress.truckProgress{grid-template-columns:repeat(5,minmax(0,1fr))}
+
+.shipmentProgress.railProgress{grid-template-columns:repeat(6,minmax(0,1fr))}
+@media(max-width:600px){.shipmentProgress.railProgress{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:16px}.railProgress li:nth-child(4)::before{display:none}}
+
+.statFilter{text-align:left;cursor:pointer;font:inherit;color:inherit}.statFilter[aria-pressed="true"]{outline:2px solid var(--orange);outline-offset:2px}.statFilter:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+@media(min-width:901px){.stats{grid-template-columns:repeat(5,minmax(0,1fr))}}
+
+.pill.departed{background:#e4f2e9;color:#16634c;font-weight:600}
+.pill.pickup,.pill.transit{background:#f3e8dc;color:#80502b;font-weight:600}
+.pill.out{background:#fff0dc;color:#ad460c;font-weight:600}
+.pill.delivered{background:#fde6e6;color:#b4232c;font-weight:700}
+
+.mobileShipmentSummary{display:none}
+@media(max-width:700px){
+ .shipmentTable td:nth-child(n+5),.shipmentTable .shipmentListMeta,.shipmentTable td:nth-child(4)>small{display:none}
+ .shipmentTable tbody tr{gap:10px;padding:14px}
+ .shipmentTable .mobileShipmentSummary{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 2px;font-size:12px;color:var(--muted)}
+ .mobileShipmentSummary strong{white-space:nowrap;color:var(--green);font-size:13px}
+ .shipmentTable td:nth-child(4){text-align:right}
+ .shipmentTable .carrierTracking{font-size:11px}
+}
+
+#salesWorkflowActions{display:flex;gap:8px;align-items:center}
+#salesWorkflowActions button{white-space:nowrap;font-size:12px;padding:10px 13px}
+@media(min-width:901px){.stats.fourStats{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:700px){
+ header:has(#salesWorkflowActions:not([hidden])){display:grid;grid-template-columns:1fr;gap:12px}
+ header:has(#salesWorkflowActions:not([hidden])) h1{white-space:nowrap;margin:0}
+ #salesWorkflowActions:not([hidden]){display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:100%}
+ #salesWorkflowActions button{min-height:40px;padding:9px 7px;font-size:12px;border-radius:8px}
+}

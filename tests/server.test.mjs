@@ -18,6 +18,24 @@ test('HTTP 登录、来源校验、上传鉴权、写入、通知和持久化',a
  assert.equal((await request('/api/users/'+adminState.user.id,{active:false})).status,400);
  async function loginAs(username){const r=await request('/api/login',{username,password});assert.equal(r.status,200);cookie=r.headers.get('set-cookie').split(';')[0];return cookie;}
  const logisticsCookie=await loginAs('logistics');
+ const companyPath='/api/freight-companies';
+ const company={name:'测试物流公司',contact:'010-12345678',wechat:'测试群',manager:'负责人',tracking_url:'https://example.com/track',website:'https://example.com',settlement:'月结',bank:'测试银行'};
+ const createdCompany=await request(companyPath,{...company,image:'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aF9sAAAAASUVORK5CYII='});
+ assert.equal(createdCompany.status,201);
+ const {id:companyId}=await createdCompany.json();
+ const bankImage=companyPath+'/'+companyId+'/bank-image';
+ cookie=adminCookie;
+ assert.equal((await request(companyPath,{...company,id:companyId,settlement:'预付'})).status,200);
+ assert.equal((await request(bankImage)).headers.get('content-type'),'image/png');
+ assert.equal((await (await request(companyPath)).json()).companies[0].settlement,'预付');
+ await loginAs('sale.one');
+ assert.equal((await request(companyPath)).status,403);
+ assert.equal((await request(bankImage)).status,403);
+ assert.equal((await request(companyPath,company)).status,403);
+ assert.equal((await request(companyPath+'/'+companyId+'/delete',{})).status,403);
+ cookie=logisticsCookie;
+ assert.equal((await request(companyPath+'/'+companyId+'/delete',{})).status,200);
+ assert.equal((await request(bankImage)).status,404);
  assert.equal((await request('/api/users')).status,403);assert.equal((await request('/api/users',{username:'hacker',name:'hacker',role:'ADMIN',password})).status,403);
  assert.equal((await request('/api/trash')).status,403);
  assert.equal((await request('/api/shipments',{product:'未指定销售',number:'1Z14V4W16800446871',carrier:'UPS'})).status,400);
