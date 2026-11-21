@@ -40,7 +40,7 @@ test('HTTP 登录、来源校验、上传鉴权、写入、通知和持久化',a
  assert.equal((await request('/api/trash')).status,403);
  assert.equal((await request('/api/shipments',{product:'未指定销售',number:'1Z14V4W16800446871',carrier:'UPS'})).status,400);
  assert.equal((await request('/api/shipments',{product:'指定非销售',number:'1Z14V4W16800446871',carrier:'UPS',sales_id:logistics.id})).status,400);
- const added=await request('/api/shipments',{product:'真实HTTP测试',number:'1Z14V4W16800446871',carrier:'UPS',sales_id:sale1.id,transport_mode:'海运',freight_company:'CONFIDENTIAL_FREIGHT_COMPANY',confirmed_weight:'10.25',unit_price:'9.5',currency:'EUR',total_price:'104.50',other_fees:'7.12',other_fees_note:'保密附加费'});assert.equal(added.status,201);const s=await added.json();assert.equal(s.total_price,'104.50');assert.equal(s.payment_status,'unpaid');
+ const added=await request('/api/shipments',{product:'真实HTTP测试',destination_country:'法国',destination_city:'Massy',number:'1Z14V4W16800446871',carrier:'UPS',sales_id:sale1.id,transport_mode:'海运',freight_company:'CONFIDENTIAL_FREIGHT_COMPANY',confirmed_weight:'10.25',unit_price:'9.5',currency:'EUR',total_price:'104.50',other_fees:'7.12',other_fees_note:'保密附加费'});assert.equal(added.status,201);const s=await added.json();assert.equal(s.total_price,'104.50');assert.equal(s.payment_status,'unpaid');
  assert.equal((await request(`/api/shipments/${s.id}/payment`,{payment_status:'paid'})).status,200);
  const paid=(await(await request('/api/state')).json()).shipments.find(x=>x.id===s.id);assert.equal(paid.payment_status,'paid');assert.ok(paid.paid_at);assert.equal(paid.paid_by,logistics.id);assert.equal(paid.total_price,'104.50');assert.equal(paid.other_fees,'7.12');
  assert.equal((await request(`/api/shipments/${s.id}/payment`,{payment_status:'pending'})).status,400);
@@ -52,7 +52,7 @@ test('HTTP 登录、来源校验、上传鉴权、写入、通知和持久化',a
  const image=await(await request('/api/upload',{base64:'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aF9sAAAAASUVORK5CYII='})).json();assert.ok(image.id);
  assert.equal((await request(image.url)).status,200);
  // Attach uploaded label to a second shipment owned by the same sales person.
- const other=await(await request('/api/shipments',{product:'有附件',number:'1ZW3716B6801448354',carrier:'UPS',sales_id:sale1.id,attachment:image.id})).json();assert.ok(other.id);
+ const other=await(await request('/api/shipments',{product:'有附件',destination_country:'法国',destination_city:'Massy',number:'1ZW3716B6801448354',carrier:'UPS',sales_id:sale1.id,attachment:image.id})).json();assert.ok(other.id);
  const invoiceBytes=Buffer.from('%PDF-1.4\nPRIVATE_INVOICE_CONTENT');const productBytes=Buffer.from([80,75,3,4,0,1,2,3]);
  const invoice=await(await request(`/api/shipments/${other.id}/documents`,{kind:'invoice',name:'PRIVATE_INVOICE_NAME.pdf',base64:invoiceBytes.toString('base64')})).json();assert.ok(invoice.id);
  const products=await(await request(`/api/shipments/${other.id}/documents`,{kind:'products',name:'产品.xlsx',base64:productBytes.toString('base64')})).json();assert.ok(products.id);

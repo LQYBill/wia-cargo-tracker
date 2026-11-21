@@ -11,3 +11,7 @@ test('FedEx与DHL需品牌和单号标签，不从无关数字猜测',()=>{
  assert.deepEqual(extractTracking('FedEx\nTRACKING ID: 1234 5678 9012'),[{number:'123456789012',carrier:'FedEx'}]);
  assert.deepEqual(extractTracking('DHL EXPRESS\nWAYBILL: 1234 5678 90'),[{number:'1234567890',carrier:'DHL'}]);
 });
+test('DPD面单识别带空格的14位单号，不截取长条码',()=>{
+ assert.deepEqual(extractTracking('dpd\n0141 5091 1023 49 A'),[{number:'01415091102349',carrier:'DPD'}]);
+ assert.deepEqual(extractTracking('dpd\n0093 600 0141 5091 1023 49 101 902 9'),[]);
+});

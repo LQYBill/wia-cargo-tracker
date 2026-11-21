@@ -1,7 +1,7 @@
 {
   "name": "cargo-tracker",
   "version": "1.6.0",
-  "built_at": "2026-11-18T16:10:15.524Z",
+  "built_at": "2026-11-21T21:02:53.011Z",
   "scope": "source-only; no business database, passwords, uploads or runtime dependencies",
   "files": [
     {
@@ -41,8 +41,8 @@
     },
     {
       "path": "lib/edit.mjs",
-      "bytes": 4113,
-      "sha256": "dc510a2111299e7b76c68f847b81cc77466bae2d200c52b32a2ffcd94e76df27"
+      "bytes": 4132,
+      "sha256": "3a5976718654d1d86253925cf5ef71100f4ea8cfb50e1bf0f23f969d094cbdf5"
     },
     {
       "path": "lib/model.mjs",
@@ -51,13 +51,13 @@
     },
     {
       "path": "lib/nightly.mjs",
-      "bytes": 5798,
-      "sha256": "4a34e872678d45b11715664d0cbc2b98c4a9dfa09ee7c7980b28f681306d4ed2"
+      "bytes": 5731,
+      "sha256": "80abee0e76249e7ac179840c39ffdea2181e1c21bdd817e98880f0cb16be0f85"
     },
     {
       "path": "lib/ocr.mjs",
-      "bytes": 3186,
-      "sha256": "893ca3aa5c770b97ffb0984ec01a149494ba3ffc13a3addb12af1708ad0e043f"
+      "bytes": 3361,
+      "sha256": "61c6b86d952dbe089c3f58dfef550907aa4aa3355c67fb8fa76895b0cdde5423"
     },
     {
       "path": "lib/provider.mjs",
@@ -71,13 +71,18 @@
     },
     {
       "path": "lib/store.mjs",
-      "bytes": 11396,
-      "sha256": "ef7b337fc36e9d21e1d8d46226acbf7cbd9e04d349ddfeed867f8a3a5844a8ff"
+      "bytes": 11402,
+      "sha256": "d4546161bdd76b87c50f4711bc7340ed595230a933d42128679c872fa66770f4"
     },
     {
       "path": "lib/t6.mjs",
       "bytes": 4781,
       "sha256": "565a3ea014faa0dbb1ab92a14d3845492f02b80d98a80b3a100368919999f3db"
+    },
+    {
+      "path": "lib/tracking-router.mjs",
+      "bytes": 2721,
+      "sha256": "125f54eb1d4a9d8861c24be2cd8815ebd2ce5bd90c63b376283db17d55afc252"
     },
     {
       "path": "lib/website-parser.mjs",
@@ -91,8 +96,8 @@
     },
     {
       "path": "lib/website.mjs",
-      "bytes": 8326,
-      "sha256": "5f9466a2b7889e8ea95273b23701e3442d9f4878a49ca652e62b32f619cf4c03"
+      "bytes": 8918,
+      "sha256": "415960dc4b8069532619f2b89df9718f62ff2efe9b3a89c26c516db599c33af6"
     },
     {
       "path": "package-lock.json",
@@ -106,8 +111,8 @@
     },
     {
       "path": "public/app.js",
-      "bytes": 138743,
-      "sha256": "da3e633312210bf551e0e48cf9156ca3227ae8ac7c7e4ad69f62cea3274c1ce0"
+      "bytes": 139200,
+      "sha256": "8b109f96d03352f5f2c048bb70207b920ef3bfb179734efe9e01d9e0a4e11ce8"
     },
     {
       "path": "public/app.webmanifest",
@@ -121,18 +126,18 @@
     },
     {
       "path": "public/index.html",
-      "bytes": 12588,
-      "sha256": "1b09ba80b5a2abec829ba200bdd4bcf475ca992d9c1b66b953a5aba2be07abad"
+      "bytes": 12683,
+      "sha256": "d9354a40c204bccad5f0e7af5f0fc61b05876c989903b7bf2a380a348d799d93"
     },
     {
       "path": "public/style.css",
-      "bytes": 27339,
-      "sha256": "6e754ba321c73c5e16323076b93db350fc40c19e2b60f589dedf81e8af76aad6"
+      "bytes": 27933,
+      "sha256": "cda265fb7c073c0cf2a2b25ae182c7454f31fd5bf8ed0fda02954d181dc9eb20"
     },
     {
       "path": "README.md",
-      "bytes": 16787,
-      "sha256": "c26ab4ebadcdecbcafd9e34ed5179f1235fa567e1329e2b21683ebfb8ddae365"
+      "bytes": 17819,
+      "sha256": "2bb9435266a914cd2aeeb98112429b3e0fd8958808f4c44293f5f8a7e5b4e74d"
     },
     {
       "path": "scripts/backup.mjs",
@@ -156,8 +161,8 @@
     },
     {
       "path": "server.mjs",
-      "bytes": 29173,
-      "sha256": "aad1948bf721024ae260c641209e5afbed7b0c876ac42f00848533bf5291ea2e"
+      "bytes": 29076,
+      "sha256": "fd0d19f524d2c1d0a38624c0220018b67298e121498d8d46f49fdf4c28136795"
     },
     {
       "path": "tests/edit.test.mjs",
@@ -181,13 +186,13 @@
     },
     {
       "path": "tests/ocr.test.mjs",
-      "bytes": 1109,
-      "sha256": "88dbd6ab581b0eca4468ddb4674c05590e420b70fdb7cb6fdb5039eca21cc1e7"
+      "bytes": 1376,
+      "sha256": "45a342eb2b286f96965dc9134fffff8c65d7a9d304d63117e1ed83ac59da776e"
     },
     {
       "path": "tests/server.test.mjs",
-      "bytes": 14745,
-      "sha256": "4fb5f2398f2c0b4e9723f3142cb81fdd20be4dcc60bf7380d18c198440dafaf8"
+      "bytes": 14853,
+      "sha256": "33679b9aa82e02fdd2ad13a9f2ef90ad982f8d86fd714b5eddf95c44ce0c2e35"
     },
     {
       "path": "tests/shipping.test.mjs",
@@ -200,9 +205,14 @@
       "sha256": "d8387a6ac0bbbf68ac29f19353012badfccab68a4ef03a874fee6d11f2eca53f"
     },
     {
+      "path": "tests/tracking-router.test.mjs",
+      "bytes": 2158,
+      "sha256": "6701b7613fd6d7a70a542ecd8dbd13df3b43cfd63c8158bb85084f74a0539029"
+    },
+    {
       "path": "tests/website.test.mjs",
-      "bytes": 2758,
-      "sha256": "d1344e34150264c7fab7429621659dc9484f4d6c48b0fc03e58d56e90062523f"
+      "bytes": 3862,
+      "sha256": "a784809968b86a0529f641115563dc55c590ba81763c21c32742be1c00d9fc3f"
     }
   ]
 }

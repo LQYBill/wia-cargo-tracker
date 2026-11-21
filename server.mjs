@@ -10,7 +10,7 @@ import {accounts,publicUser,verifyPassword} from './lib/accounts.mjs';
 import {fileType,publicShipment,transportModes} from './lib/shipping.mjs';
 import {editShipment} from './lib/edit.mjs';
 import {createWebsiteProvider} from './lib/website.mjs';
-import {createT6Monitor} from './lib/t6.mjs';
+import {createTrackingRouter} from './lib/tracking-router.mjs';
 import {createNightly} from './lib/nightly.mjs';
 const root=dirname(fileURLToPath(import.meta.url));
 const dir=resolve(process.env.CARGO_DATA_DIR||join(root,'data'));
@@ -31,7 +31,7 @@ store.db.exec(`CREATE TABLE IF NOT EXISTS freight_companies(
  website TEXT NOT NULL, settlement TEXT NOT NULL, bank TEXT NOT NULL,
  bank_image BLOB, bank_mime TEXT
 )`);
-const provider=trackingSource==='website'?createWebsiteProvider(store):createProvider(store);
+const provider=trackingSource==='website'?createTrackingRouter(store,createWebsiteProvider(store)):createProvider(store);
 const nightly=trackingSource==='website'?createNightly(store,provider):null;
 if(nightly)await provider.check();
 const users=accounts(store);users.bootstrap(process.env.ADMIN_PASSWORD_HASH);
@@ -172,7 +172,7 @@ const server=http.createServer(async(req,res)=>{
     const b=await body(req),customer=String(b.customer||'').trim(),destination=shipmentDestination(b);
     const boxes=Number(b.boxes);
     if(!transportModes.includes(b.mode))throw Error('请选择运输方式');
-    if(!customer||customer.length>200||!destination||!Number.isSafeInteger(boxes)||boxes<1||!['DHL','Chronopost','UPS','FedEx'].includes(b.carrier))throw Error('请填写客户、海外仓、箱数及承运商');
+    if(!customer||customer.length>200||!destination||!Number.isSafeInteger(boxes)||boxes<1||!['DHL','Chronopost','UPS','FedEx','DPD'].includes(b.carrier))throw Error('请填写客户、海外仓、箱数及承运商');
     const salesId=isSupport(user)?users.sales(b.sales_id).id:user.id;
     const secondSalesId=isSupport(user)&&b.sales_id_2?users.sales(b.sales_id_2).id:null;
     if(salesId===secondSalesId)throw Error('请选择两位不同的销售');
@@ -291,7 +291,6 @@ const server=http.createServer(async(req,res)=>{
    if(match&&req.method==='POST') {
     const [,id,action]=match;const existing=store.get(id);if(!canSee(user,existing))return json(res,{error:'运单不存在'},404);
     if(action==='sync'){
-     void t6Monitor.tick(id).catch(console.error);
      if(nightly){const job=nightly.enqueue(null,[id]);setImmediate(()=>nightly.tick().catch(()=>{}));return json(res,{queued:true,id:job});}
      return json(res,await provider.sync(id));
     }
@@ -320,10 +319,9 @@ const server=http.createServer(async(req,res)=>{
 });
 server.requestTimeout=120000;
 server.listen(port,host,()=>console.log(`Cargo Tracker listening on ${host}:${port}; access ${origin}`));
-const t6Monitor=createT6Monitor(store.db);
-const monitorTick=()=>Promise.all([t6Monitor.tick(),nightly?nightly.tick():provider.tick()]);
+const monitorTick=()=>nightly?nightly.tick():provider.tick();
 const timer=setInterval(()=>monitorTick().catch(e=>console.error('Monitor task:',e.message)),10000);timer.unref();
 setImmediate(()=>monitorTick().catch(e=>console.error('Monitor startup:',e.message)));
 store.db.prepare('DELETE FROM sessions WHERE expires<?').run(Date.now());
 let stopping=false;
-for(const signal of ['SIGINT','SIGTERM'])process.on(signal,async()=>{if(stopping)return;stopping=true;clearInterval(timer);await provider.close?.();await nightly?.stop();await t6Monitor.stop();server.close(()=>{store.db.close();process.exit(0);});});
+for(const signal of ['SIGINT','SIGTERM'])process.on(signal,async()=>{if(stopping)return;stopping=true;clearInterval(timer);await nightly?.stop();await provider.close?.();server.close(()=>{store.db.close();process.exit(0);});});

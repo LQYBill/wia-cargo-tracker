@@ -1,0 +1,30 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {mkdtempSync,rmSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {openStore} from '../lib/store.mjs';
+import {createTrackingRouter} from '../lib/tracking-router.mjs';
+import {createNightly} from '../lib/nightly.mjs';
+
+test('手动和夜间共用内部单号路由，重复查询不新增，已签收自动和手动均跳过',async t=>{
+ const dir=mkdtempSync(join(tmpdir(),'cargo-router-'));const s=openStore(dir);
+ t.after(()=>{s.db.close();rmSync(dir,{recursive:true,force:true});});
+ s.db.exec('CREATE TABLE freight_companies(name TEXT,tracking_url TEXT)');
+ const a=s.add({product:'内部',number:'879768540822',carrier:'FedEx'});
+ const b=s.add({product:'无内部',number:'1ZW3716B6812954456',carrier:'UPS'});
+ s.db.prepare('UPDATE shipments SET freight_company=?,transfer_number=? WHERE id=?').run('亿丰国际','YF88147262',a.id);
+ s.ingest(b.id,[{time:'2026-11-17T11:11:00Z',kind:'delivered',description:'Delivered',source:'人工核验'}]);
+ let calls=0;const webIds=[];
+ const provider=createTrackingRouter(s,{sync:async id=>{webIds.push(id);},connection:()=>({ready:true}),isBusy:()=>false,isSyncing:()=>false},{query:async(number,site)=>{calls++;assert.equal(number,'YF88147262');assert.equal(site,'t6');return{events:[{time:'2026-11-18 10:08:00',description:'已送达'}]};}});
+ assert.equal((await provider.sync(a.id)).count,1);
+ assert.equal((await provider.sync(a.id)).count,0);
+ assert.equal(webIds.length,0);
+ s.db.prepare('UPDATE shipments SET freight_company=?,transfer_number=? WHERE id=?').run('MBS','WY20261117',b.id);
+ assert.equal((await provider.sync(b.id)).skipped,true);assert.deepEqual(webIds,[]);
+ let now=Date.parse('2026-11-18T20:59:00Z');
+ const nightly=createNightly(s,provider,{clock:()=>now});await nightly.tick();assert.equal(calls,2);
+ now=Date.parse('2026-11-18T21:00:00Z');await nightly.tick();await nightly.tick();
+ assert.equal(calls,3);assert.deepEqual(webIds,[]);assert.equal(nightly.state().runs[0].success,1);
+ await nightly.tick();assert.equal(calls,3);assert.equal(webIds.length,0);
+});
